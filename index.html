@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="author" content="Kenneth Hu">
+    <title>Web3js</title>
+
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <script src="js/web3.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+
+        <h1>Web3.js</h1>
+
+        <label for="name" class="col-lg-2 control-label"><h3>NodeInfo</h3></label>
+        <input id="NodeInfo" type="text">
+		
+		<hr>
+
+        <label for="name" class="col-lg-2 control-label"><h3>Balance</h3></label>
+		<p>Account : <input id="Account" type="text"> </p>
+        <p>Balance : <input id="Balance" type="text"></p>
+		 <button id="checkBalance">Check Balance</button>
+
+		<hr>
+		<label for="name" class="col-lg-2 control-label"><h3>Transfer</h3></label>
+		<p>From : &nbsp &nbsp &nbsp <input id="From" type="text"> </p>
+		<p>To : &nbsp &nbsp &nbsp &nbsp &nbsp <input id="To" type="text"> </p>
+        <p>Amount : &nbsp <input id="Amount" type="text"></p>
+        <button id="Transfer">Transfer</button>
+        <p>Transaction Hash : &nbsp  <span id="Tx"></span></p>
+
+        <hr>
+        <label for="name" class="col-lg-2 control-label"><h3>input data</h3></label>
+        <p>NumberId : &nbsp <input id="NumberId" type="uint256"> </p>
+        <p>PM1.0 : &nbsp &nbsp &nbsp &nbsp<input id="pm10" type="uint256"> </p>
+        <p>PM2.5 : &nbsp &nbsp &nbsp &nbsp<input id="pm25" type="uint256"> </p>
+        <p>PM10.0 : &nbsp &nbsp &nbsp<input id="pm100" type="uint256"> </p>
+        <button id="inputdata">Input Data</button>
+
+        <hr>
+        <label for="name" class="col-lg-2 control-label"><h3>get data</h3></label>
+        <p>NumberId : &nbsp <input id="g_NumberId" type="uint256"> </p>
+        <p>result : <input id = "getData_result" type="text"> </p>
+        <button id="getdata">get Data</button>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script>
+    
+		$( document ).ready(function() {
+			console.log( "ready!" );
+			
+			if (typeof web3 !== 'undefined') {
+				web3 = new Web3(web3.currentProvider);
+			} else {
+					// set the provider you want from Web3.providers
+				web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+			}
+			web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+			/* Get Node Info */
+			web3.eth.getNodeInfo(function(error, result){
+				if(error){
+					console.log( "error" ,error);
+				}
+				else{
+					console.log( "result",result );
+					$('#NodeInfo').val(result);
+				}
+			});
+			
+			/*Get Balance */
+			web3.eth.getAccounts(function(error, accounts) {
+				if(error) {
+					console.log(error);
+				}
+				$('#Account').val(accounts[0]);
+				web3.eth.getBalance(accounts[0]).then(function(result){
+					console.log( "Balance : " ,web3.utils.fromWei(result, 'ether'));
+					$('#Balance').val(web3.utils.fromWei(result, 'ether'));
+				});
+			});
+			
+			$('#checkBalance').click(function() {
+			    var _account = $('#Account').val();
+				web3.eth.getBalance(_account).then(function(result){
+					console.log( "Balance : " ,web3.utils.fromWei(result, 'ether'));
+					$('#Balance').val(web3.utils.fromWei(result, 'ether'));
+				});
+			});
+
+			/*get data*/
+			const contractAddress = "0x266D1d2b51480B7621CA6AF459a1607C9827b06A"
+			const abi = [
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"name": "pm10",
+				"type": "uint256"
+			},
+			{
+				"name": "pm25",
+				"type": "uint256"
+			},
+			{
+				"name": "pm100",
+				"type": "uint256"
+			}
+		],
+		"name": "inputData",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "number",
+				"type": "uint256"
+			}
+		],
+		"name": "getData",
+		"outputs": [
+			{
+				"name": "get_id",
+				"type": "uint256"
+			},
+			{
+				"name": "get_pm10",
+				"type": "uint256"
+			},
+			{
+				"name": "get_pm25",
+				"type": "uint256"
+			},
+			{
+				"name": "get_pm100",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
+			$('#getdata').click(function(){
+				var _id = $('g_NumberId').val();
+				const block_contract = new web3.eth.Contract(abi, contractAddress);
+				const record = block_contract.methods.getData(_id).call();
+				$('getData_result').val(block_contract.methods.getData(_id).call());
+				console.log(record);
+			});
+			/*<p>PM1.0 : &nbsp &nbsp &nbsp &nbsp<input id="g_pm10" type="uint256"> </p>
+        <p>PM2.5 : &nbsp &nbsp &nbsp &nbsp<input id="g_pm25" type="uint256"> </p>
+        <p>PM10.0 : &nbsp &nbsp &nbsp<input id="g_pm100" type="uint256"> </p>*/
+			
+			/* Transfer */
+			$('#Transfer').click(function() {
+				$('#Tx').text('');
+				var _from = $('#From').val();
+			    var _to = $('#To').val();
+				var _Amount = $('#Amount').val();
+				var dsfds = {
+					"from":_from,
+					"to": _to,
+					"value": web3.utils.toWei(_Amount,'ether'),
+					// "gas": 21000,         (optional)
+					// "gasPrice": 4500000,  (optional)
+					// "data": 'For testing' (optional)
+					// "nonce": 10           (optional)
+				}
+			
+				web3.eth.sendTransaction(txnObject, function(error, result){
+					if(error){
+						console.log( "Transaction error" ,error);
+					}
+					else{
+						var txn_hash = result; //Get transaction hash
+						$('#Tx').text(txn_hash);
+					}
+				});
+				
+			});
+			
+		
+		});
+	
+    </script>
+
+</body>
+</html>
