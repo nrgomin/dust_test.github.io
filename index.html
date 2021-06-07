@@ -1,4 +1,10 @@
 
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<%
+    // 인코딩
+    request.setCharacterEncoding("euc-kr");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,10 +44,10 @@
 
         <hr>
         <label for="name" class="col-lg-2 control-label"><h3>input data</h3></label>
-        <p>NumberId : &nbsp <input id="NumberId" type="uint256"> </p>
-        <p>PM1.0 : &nbsp &nbsp &nbsp &nbsp<input id="pm10" type="uint256"> </p>
-        <p>PM2.5 : &nbsp &nbsp &nbsp &nbsp<input id="pm25" type="uint256"> </p>
-        <p>PM10.0 : &nbsp &nbsp &nbsp<input id="pm100" type="uint256"> </p>
+        NumberId : <%= requsst.getParameter("NumberId") %><br>
+        PM1.0 : <%= requsst.getParameter("pm10") %><br>
+        PM2.5 : <%= requsst.getParameter("pm25") %><br>
+        PM10.0 : <%= requsst.getParameter("pm100") %><br>
         <button id="inputdata">Input Data</button>
 
         <hr>
