@@ -9,22 +9,19 @@ for (var i = 0; i < params.length; i++) {
 }
 return sval;
 }
-console.log(getParam("param2"));
-console.log(getParam("param1"));
-console.log(getParam("param3"));
 window.onload = function(){
-    var NumberId = console.log(getParam("param2"));
-    var PM10 = console.log(getParam("PM10"));
-	var PM25 = console.log(getParam("PM25"));
-	var PM100 = console.log(getParam("PM100"));
+var NumberId = console.log(getParam("NumberId"));
+var PM10 = console.log(getParam("PM10"));
+var PM25 = console.log(getParam("PM25"));
+var PM100 = console.log(getParam("PM100"));
 
-    	document.getElementById('InputData_NumberId').innerHTML = NumberId;
-	document.getElementById('InputData_PM10').innerHTML = PM10;
-	document.getElementById('InputData_PM25').innerHTML = PM25;
-	document.getElementById('InputData_PM100').innerHTML = PM100;
+document.getElementById('InputData_NumberId').innerHTML = NumberId;
+document.getElementById('InputData_PM10').innerHTML = PM10;
+document.getElementById('InputData_PM25').innerHTML = PM25;
+document.getElementById('InputData_PM100').innerHTML = PM100;
 };
 </script>
-</script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
