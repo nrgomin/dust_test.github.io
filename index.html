@@ -1,19 +1,30 @@
 <script type="text/javascript">
-function getParam(sname) {
-var params = location.search.substr(location.search.indexOf("?") + 1);
-var sval = "";
-params = params.split("&");
-for (var i = 0; i < params.length; i++) {
-	temp = params[i].split("=");
-	if ([temp[0]] == sname) { sval = temp[1]; }
+function Request(){
+ var requestParam ="";
+ //getParameter 펑션
+  this.getParameter = function(param){
+  //현재 주소를 decoding
+  var url = unescape(location.href);
+  //파라미터만 자르고, 다시 &그분자를 잘라서 배열에 넣는다.
+   var paramArr = (url.substring(url.indexOf("?")+1,url.length)).split("&");
+   for(var i = 0 ; i < paramArr.length ; i++){
+     var temp = paramArr[i].split("="); //파라미터 변수명을 담음
+     if(temp[0].toUpperCase() == param.toUpperCase()){
+       // 변수명과 일치할 경우 데이터 삽입
+       requestParam = paramArr[i].split("=")[1];
+       break;
+     }
+   }
+   return requestParam;
+ }
 }
-return sval;
-}
+
 window.onload = function(){
-var Inputdata_NumberID = console.log(getParam("NumberID"));
-var Inputdata_PM10 = console.log(getParam("PM10"));
-var Inputdata_PM25 = console.log(getParam("PM25"));
-var Inputdata_PM100 = console.log(getParam("PM100"));
+var request = new Request();
+var Inputdata_NumberID =  request.getParameter("NumberID");
+var Inputdata_PM10 =  request.getParameter("PM10");
+var Inputdata_PM25 =  request.getParameter("PM25");
+var Inputdata_PM100 =  request.getParameter("PM100");
 
 document.getElementById('InputData_NumberID').innerHTML = Inputdata_NumberID;
 document.getElementById('InputData_PM10').innerHTML = Inputdata_PM10;
