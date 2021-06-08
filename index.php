@@ -1,13 +1,10 @@
+<?php
+  $NumberId : $_GET['NumberId'];
+  $PM10 : $_GET['pm10'];
+  $PM25 : $_GET['pm25'];
+  $PM100 : $_GET['pm100'];
+?>
 
-<script
-@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"
-	script>
-<script
-    // 인코딩
-    request.setCharacterEncoding("euc-kr");
-script>
-	
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,11 +44,10 @@ script>
 
         <hr>
         <label for="name" class="col-lg-2 control-label"><h3>input data</h3></label>
-        NumberId : <%= requsst.getParameter("NumberId") %><br>
-        PM1.0 : <%= requsst.getParameter("pm10") %><br>
-        PM2.5 : <%= requsst.getParameter("pm25") %><br>
-        PM10.0 : <%= requsst.getParameter("pm100") %><br>
-        <button id="inputdata">Input Data</button>
+        <p> NumberId : <?php echo $NumberId?></p>
+        <p> PM1.0 : <?php echo $PM10?></p>
+        <p> PM2.5 : <?php echo $PM25?></p>
+        <p> PM10.0 : <?php echo $PM100?></p>
 
         <hr>
         <label for="name" class="col-lg-2 control-label"><h3>get data</h3></label>
@@ -72,9 +68,9 @@ script>
 				web3 = new Web3(web3.currentProvider);
 			} else {
 					// set the provider you want from Web3.providers
-				web3 = new Web3(new Web3.providers.HttpProvider("HTTP://192.168.155.136:7545"));
+				web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
 			}
-			web3 = new Web3(new Web3.providers.HttpProvider("HTTP://192.168.155.136:7545"));
+			web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
 			/* Get Node Info */
 			web3.eth.getNodeInfo(function(error, result){
 				if(error){
