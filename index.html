@@ -21,12 +21,12 @@ function Request(){
 
 window.onload = function(){
 var request = new Request();
-var Inputdata_NumberID =  request.getParameter("NumberID");
+var Inputdata_Mac =  request.getParameter("Mac");
 var Inputdata_PM10 =  request.getParameter("PM10");
 var Inputdata_PM25 =  request.getParameter("PM25");
 var Inputdata_PM100 =  request.getParameter("PM100");
 
-document.getElementById('InputData_NumberID').innerHTML = Inputdata_NumberID;
+document.getElementById('InputData_Mac').innerHTML = Inputdata_Mac;
 document.getElementById('InputData_PM10').innerHTML = Inputdata_PM10;
 document.getElementById('InputData_PM25').innerHTML = Inputdata_PM25;
 document.getElementById('InputData_PM100').innerHTML = Inputdata_PM100;
@@ -72,10 +72,10 @@ document.getElementById('InputData_PM100').innerHTML = Inputdata_PM100;
 
         <hr>
         <label for="name" class="col-lg-2 control-label"><h3>input data</h3></label>
-        <p id="InputData_NumberID"></p>
-	<p id="InputData_PM10"></p>
-	<p id="InputData_PM25"></p>
-	<p id="InputData_PM100"></p>
+        <p id="InputData_Mac"></p>
+		<p id="InputData_PM10"></p>
+		<p id="InputData_PM25"></p>
+		<p id="InputData_PM100"></p>
         <button id="inputdata">Input Data</button>
 
         <hr>
